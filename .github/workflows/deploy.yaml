@@ -4,6 +4,66 @@ on:
   push:
     branches:
       - main
+name: Deploy para Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+name: Deploy para Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy para Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          containerAppName: genealogia-backend
+          resourceGroup: genealogia-academica
+          imageToDeploy: genealogiaacademicabackend.azurecr.io/genealogiaacademicabackend:latest
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Login no Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy para Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          containerAppName: genealogia-backend
+          resourceGroup: genealogia-academica
+          imageToDeploy: genealogiaacademicabackend.azurecr.io/genealogiaacademicabackend:latest
 
 jobs:
   deploy:
