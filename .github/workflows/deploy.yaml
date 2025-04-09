@@ -41,8 +41,10 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: infra
         env:
-          TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
-          TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
           TF_VAR_container_registry_name: ${{ secrets.AZURE_ACR_NAME }}
+          TF_VAR_acr_username: ${{ secrets.AZURE_ACR_USERNAME }}
+          TF_VAR_acr_password: ${{ secrets.AZURE_ACR_PASSWORD }}
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USER: ${{ secrets.NEO4J_USER }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          PORT: ${{ secrets.PORT }}
