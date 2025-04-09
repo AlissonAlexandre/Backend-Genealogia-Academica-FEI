@@ -35,7 +35,7 @@ resource "azurerm_container_app" "app" {
       name   = "genealogia"
       image  = "${var.container_registry_name}.azurecr.io/genealogiaacademicabackend:latest"
       cpu    = 0.5
-      memory = "1.0Gi"
+      memory = "1Gi"
 
       env {
         name  = "ENV"
