@@ -37,3 +37,7 @@ variable "AZURE_TENANT_ID" {
 variable "AZURE_SUBSCRIPTION_ID" {
   type = string
 }
+
+variable "GENEALOGIA_AZURE_SECRET"{
+  type = string
+}

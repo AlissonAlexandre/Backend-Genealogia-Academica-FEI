@@ -41,6 +41,11 @@ resource "azurerm_container_app" "app" {
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
 
+  secret {
+    name  = "genealogiaacademicabackendazurecrio-genealogiaacademicabackend"
+    value = var.GENEALOGIA_AZURE_SECRET
+  }
+
   template {
     container {
       name   = "genealogia"
