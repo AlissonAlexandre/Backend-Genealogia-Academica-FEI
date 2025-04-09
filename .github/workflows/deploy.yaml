@@ -1,36 +1,44 @@
-name: Deploy com Terraform
+name: Deploy para Azure com Terraform
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  terraform:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
+      - name: Configurar Terraform
         uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6
 
-      - name: Init Terraform
+      - name: Login no Azure com OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Terraform Init
         run: terraform init
+        working-directory: infra
 
-      - name: Apply Terraform
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: infra
+
+      - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: infra
         env:
-          TF_VAR_resource_group: "genealogia-academica"
-          TF_VAR_location: "eastus"
-          TF_VAR_environment_name: "prod"
-          TF_VAR_container_app_name: "genealogia-backend"
-          TF_VAR_acr_login_server: "genealogiaacademicabackend.azurecr.io"
-          TF_VAR_image_name: "genealogiaacademicabackend"
-          TF_VAR_acr_username: ${{ secrets.ACR_USERNAME }}
-          TF_VAR_acr_password: ${{ secrets.ACR_PASSWORD }}
+          TF_VAR_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+          TF_VAR_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
+          TF_VAR_container_registry_name: ${{ secrets.AZURE_ACR_NAME }}
