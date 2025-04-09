@@ -47,7 +47,7 @@ jobs:
           TF_VAR_container_registry_name: ${{ secrets.AZURE_ACR_NAME }}
           TF_VAR_acr_username: ${{ secrets.AZURE_ACR_USERNAME }}
           TF_VAR_acr_password: ${{ secrets.AZURE_ACR_PASSWORD }}
-          NEO4J_URI: ${{ secrets.NEO4J_URI }}
-          NEO4J_USER: ${{ secrets.NEO4J_USER }}
-          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-          PORT: ${{ secrets.PORT }}
+          TF_VAR_NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          TF_VAR_NEO4J_USER: ${{ secrets.NEO4J_USER }}
+          TF_VAR_NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          TF_VAR_PORT: ${{ secrets.PORT }}
