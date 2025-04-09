@@ -1,32 +1,36 @@
-name: Deploy para Azure Container Apps
+name: Deploy com Terraform
 
 on:
   push:
-    branches:
-      - main
-
-permissions:
-  id-token: write
-  contents: read
+    branches: [main]
 
 jobs:
-  deploy:
+  terraform:
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Login no Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-      - name: Deploy para Azure Container Apps
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          containerAppName: genealogia-backend
-          resourceGroup: genealogia-academica
-          imageToDeploy: genealogiaacademicabackend.azurecr.io/genealogiaacademicabackend:latest
+      - name: Init Terraform
+        run: terraform init
+
+      - name: Apply Terraform
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_resource_group: "genealogia-academica"
+          TF_VAR_location: "eastus"
+          TF_VAR_environment_name: "prod"
+          TF_VAR_container_app_name: "genealogia-backend"
+          TF_VAR_acr_login_server: "genealogiaacademicabackend.azurecr.io"
+          TF_VAR_image_name: "genealogiaacademicabackend"
+          TF_VAR_acr_username: ${{ secrets.ACR_USERNAME }}
+          TF_VAR_acr_password: ${{ secrets.ACR_PASSWORD }}
