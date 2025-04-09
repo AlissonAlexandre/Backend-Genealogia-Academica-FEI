@@ -30,7 +30,10 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}" \
+                            -backend-config="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" \
+                            -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+                            -backend-config="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
         working-directory: infra
 
       - name: Terraform Validate
