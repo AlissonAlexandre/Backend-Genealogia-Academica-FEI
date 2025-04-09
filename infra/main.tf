@@ -5,6 +5,13 @@ terraform {
       version = "~> 3.90.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "genealogia-academica"
+    storage_account_name = "genealogiastorage"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {

@@ -51,3 +51,4 @@ jobs:
           TF_VAR_NEO4J_USER: ${{ secrets.NEO4J_USER }}
           TF_VAR_NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
           TF_VAR_PORT: ${{ secrets.PORT }}
+          TF_VAR_STORAGE_KEY_AZURE: ${{ secrets.STORAGE_KEY_AZURE }}

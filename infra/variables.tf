@@ -25,3 +25,7 @@ variable "NEO4J_PASSWORD" {
 variable "PORT" {
   type = number
 }
+
+variable "STORAGE_KEY_AZURE" {
+  type = string
+}
