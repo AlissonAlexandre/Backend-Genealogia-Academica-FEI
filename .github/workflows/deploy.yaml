@@ -38,7 +38,10 @@ jobs:
         working-directory: infra
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          export TF_LOG=DEBUG
+          export TF_LOG_PATH=terraform.log
+          terraform apply -auto-approve -input=false
         working-directory: infra
         env:
           TF_VAR_container_registry_name: ${{ secrets.AZURE_ACR_NAME }}
