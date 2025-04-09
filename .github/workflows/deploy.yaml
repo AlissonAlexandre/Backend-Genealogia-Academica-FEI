@@ -28,8 +28,8 @@ jobs:
         run: az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
 
       - name: Build da imagem Docker
-        run: docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/genealogiaacademicabackend:latest .
-
+        run: docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/genealogiaacademicabackend:latest ./app
+        
       - name: Push da imagem para o ACR
         run: docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/genealogiaacademicabackend:latest
 
