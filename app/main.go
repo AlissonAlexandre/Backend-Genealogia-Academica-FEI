@@ -2,9 +2,11 @@ package main
 
 import (
 	"backend_genealogia_academica/Routes"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
 	"os"
+	"time"
 )
 
 func main() {
@@ -15,6 +17,13 @@ func main() {
 	defer neo4jHandler.Close()
 
 	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:  []string{"https://genealogia-academica-fei.com.br", "http://localhost:3000"},
+		AllowMethods:  []string{"GET", "OPTIONS"},
+		AllowHeaders:  []string{"Origin", "Content-Type"},
+		ExposeHeaders: []string{"Content-Length"},
+		MaxAge:        24 * time.Hour,
+	}))
 
 	r.GET("/grafos", Routes.GetGrafosHandler(neo4jHandler.Driver))
 	r.GET("/metagrafos", Routes.GetMetagrafosHandler(neo4jHandler.Driver))
