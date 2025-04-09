@@ -25,7 +25,7 @@ func main() {
 	}
 
 	if err := r.Run(":" + port); err != nil {
-		log.Fatalf("Erro ao iniciar o servidor: %s", err)
+		log.Fatalf("Erro ao iniciar o servidor:  %s", err)
 	}
 	log.Printf("Servidor rodando na porta %s", port)
 
