@@ -17,6 +17,10 @@ terraform {
 provider "azurerm" {
   features {}
 
+  client_id       = var.acr_username
+  client_secret   = var.acr_password
+  tenant_id       = var.AZURE_TENANT_ID
+  subscription_id = var.AZURE_SUBSCRIPTION_ID
   skip_provider_registration = true
 }    
 

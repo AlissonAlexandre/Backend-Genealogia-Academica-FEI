@@ -52,3 +52,5 @@ jobs:
           TF_VAR_NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
           TF_VAR_PORT: ${{ secrets.PORT }}
           TF_VAR_STORAGE_KEY_AZURE: ${{ secrets.STORAGE_KEY_AZURE }}
+          TF_VAR_AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
