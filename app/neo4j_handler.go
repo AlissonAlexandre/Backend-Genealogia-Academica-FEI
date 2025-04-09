@@ -15,10 +15,10 @@ type Neo4jHandler struct {
 }
 
 func NewNeo4jHandler() (*Neo4jHandler, error) {
-	dotenvErr := godotenv.Load(".env")
-	if dotenvErr != nil {
-		return nil, fmt.Errorf("erro carregando .env: %w", dotenvErr)
-	}
+	//dotenvErr := godotenv.Load(".env")
+	//if dotenvErr != nil {
+	//	return nil, fmt.Errorf("erro carregando .env: %w", dotenvErr)
+	//}
 
 	ctx := context.Background()
 	dbUri := os.Getenv("NEO4J_URI")
