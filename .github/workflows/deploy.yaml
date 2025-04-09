@@ -37,6 +37,11 @@ jobs:
         run: terraform validate
         working-directory: infra
 
+      - name: Importar ambiente existente
+        run: |
+          terraform import azurerm_container_app_environment.env "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/genealogia-academica/providers/Microsoft.App/managedEnvironments/PROD"
+        working-directory: infra
+
       - name: Terraform Apply
         run: |
           export TF_LOG=DEBUG
