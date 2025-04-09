@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_container_app_environment" "env" {
-  name                = "genealogia-env"
+  name                = "PROD"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 }
