@@ -41,11 +41,6 @@ resource "azurerm_container_app" "app" {
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
 
-  secret {
-    name  = "genealogiaacademicabackendazurecrio-genealogiaacademicabackend"
-    value = var.GENEALOGIA_AZURE_SECRET
-  }
-
   template {
     container {
       name   = "genealogia"
@@ -77,7 +72,6 @@ resource "azurerm_container_app" "app" {
 
     min_replicas = 0
     max_replicas = 3
-    
   }
 
   ingress {
@@ -91,8 +85,8 @@ resource "azurerm_container_app" "app" {
   }
 
   registry {
-    server   = "${var.container_registry_name}.azurecr.io"
-    username = var.acr_username
-    password_secret_name  = var.acr_password
+    server               = "${var.container_registry_name}.azurecr.io"
+    username             = var.acr_username
+    password_secret_name = "genealogiaacademicabackendazurecrio-genealogiaacademicabackend"
   }
 }
