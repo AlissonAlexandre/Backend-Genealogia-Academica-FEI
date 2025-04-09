@@ -17,17 +17,26 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Configurar Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.6.6
-
       - name: Login no Azure com OIDC
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Login no ACR
+        run: az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+
+      - name: Build da imagem Docker
+        run: docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/genealogiaacademicabackend:latest .
+
+      - name: Push da imagem para o ACR
+        run: docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/genealogiaacademicabackend:latest
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6
 
       - name: Terraform Init
         run: terraform init -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}" -backend-config="client_secret=${{ secrets.AZURE_CLIENT_SECRET }}" -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" -backend-config="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
@@ -53,6 +62,5 @@ jobs:
           TF_VAR_PORT: ${{ secrets.PORT }}
           TF_VAR_STORAGE_KEY_AZURE: ${{ secrets.STORAGE_KEY_AZURE }}
           TF_VAR_AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
-          TF_VAR_GENEALOGIA_AZURE_SECRET: ${{ secrets.GENEALOGIA_AZURE_SECRET }} 
-
+          TF_VAR_AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          TF_VAR_GENEALOGIA_AZURE_SECRET: ${{ secrets.GENEALOGIA_AZURE_SECRET }}
